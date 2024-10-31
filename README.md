@@ -1,78 +1,60 @@
-# Fhenix Hardhat Example [![Open in Gitpod][gitpod-badge]][gitpod]
+# Not FHriEr - dApp
 
-[gitpod]: https://gitpod.io/#https://github.com/fhenixprotocol/fhenix-hardhat-example
-[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
+## Project Overview
 
-This repository contains a sample project that you can use as the starting point
-for your Fhenix project. It's also a great fit for learning the basics of
-Fhenix smart contract development.
+**Not FHriEr** is a decentralized job marketplace connecting companies and job seekers through a salary-matching algorithm that ensures privacy and fairness. Companies can list job openings as "Posters," setting a hidden maximum salary, while "Seekers" enter a minimum desired salary to find jobs that meet their expectations. The platform uses Fully Homomorphic Encryption (FHE) and wrapping tokens to protect financial data and enforce secure, encrypted transactions.
 
-This project is intended to be used with the
-[Fhenix Hardhat Beginners Tutorial](TODO), but you should be
-able to follow it by yourself by reading the README and exploring its
-`contracts`, `tests`, `deploy` and `tasks` directories.
+## Features
 
-It comes with two fhenix-specific hardhat plugins:
+### Core Functionalities
+- **Posters (Employers)**:
+  - List open positions with hidden maximum salaries.
+  - Update salary or job descriptions as needed.
+  - Retrieve salary comparison standings for listed roles.
 
-- `fhenix-hardhat-plugin`: The main plugin for fhenix development in hardhat. It injects `fhenixjs` into the hardhat runtime environment, which allows you to interact with encrypted data in your tests and tasks.
-- `fhenix-hardhat-docker`: A plugin that allows you to run a local Fhenix testnet in a docker container. This is useful for testing your contracts in a sandbox before deploying them on a testnet or on mainnet.
+- **Seekers (Job Seekers)**:
+  - Search for jobs by title and salary expectations.
+  - Access role descriptions and company details upon KYC verification.
+  - Perform secure searches with fees based on usage patterns.
 
-## Quick start
+### Security & Fees
+- **Salary Range Anonymity**: Keeps average salary data private by categorizing standings into general ranges.
+- **Search Fees**: Uses an exponential backoff mechanism to prevent excessive searches, with a 24-hour cooldown.
+- **Transaction Security**: Utilizes a wrapping token (IFHERC20-compliant FundToken) to encrypt all transactions.
 
-The first things you need to do are cloning this repository and installing its dependencies:
+## Technologies Used
+- **Solidity**
+- **Fhenix Network** (for FHE)
+- **IFHERC20 Token Standard**
 
-```sh
-git clone https://github.com/FhenixProtocol/fhenix-hardhat-example.git
-cd fhenix-hardhat-example
-pnpm install
-```
+## Installation
 
-Next, you need an .env file containing your mnemonics or keys. You can use .env.example that comes with a predefined mnemonic, or use your own
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/haimbj1/Not_fhrier.git
+   ```
+2. Navigate into the project directory and install dependencies:
+   ```bash
+   cd not-fhrier
+   npm install
+   ```
 
-```sh
-cp .env.example .env
-```
+## Usage
 
-Once the file exists, let's run a LocalFhenix instance:
+1. **Start the dApp**: Follow steps to set up your local blockchain (e.g., using Ganache) and deploy the smart contract.
+2. **Interact with the dApp**:
+   - Posters can add job listings, update roles, and check average salary ranges.
+   - Seekers can search for roles, request information, and view available jobs that meet their minimum salary.
 
-```sh
-pnpm localfhenix:start
-```
+## API Endpoints
 
-This will start a LocalFhenix instance in a docker container. If this worked you should see a `Started LocalFhenix successfully` message in your console.
+### Posters API
+- **NewPost**: Adds a new job listing.
+- **UpdateMyPostSalary**: Updates job salary once daily.
+- **myPercentile**: Displays salary comparison standings (Below P50, P50, P75, P90, and above).
 
-If not, please make sure you have `docker` installed and running on your machine. You can find instructions on how to install docker [here](https://docs.docker.com/get-docker/).
+### Seekers API
+- **SeekSpecific**: Searches by title and company.
+- **giveMeSomething**: Retrieves a random job listing with verified access.
+- **giveMeEverything**: Lists all matching job listings with descriptions and company emails.
 
-Now that we have a LocalFhenix instance running, we can deploy our contracts to it:
-
-```sh
-npx hardhat deploy
-```
-
-Note that this template defaults to use the `localfhenix` network, which is injected into the hardhat configuration.
-
-Finally, we can run the tasks with:
-
-```sh
-pnpm task:getCount # => 0
-pnpm task:addCount
-pnpm task:getCount # => 1
-pnpm task:addCount --amount 5
-pnpm task:getCount # => 6
-```
-
-## Hardhat Network
-
-This template contains experimental support for testing using Hardhat Network. By importing the `fhenix-hardhat-network` plugin in `hardhat.config.ts` we add support for simulated operations using Hardhat Network. These do not perform the full FHE computations, and are menant to serve as development tools to verify contract logic.
-
-If you have any issues or feature requests regarding this support please open a ticket in this repository 
-
-## Troubleshooting
-
-If Localfhenix doesn't start this could indicate an error with docker. Please verify that docker is running correctly using the `docker run hello-world` command, which should run a basic container and verify that everything is plugged in.
-
-For example, if the docker service is installed but not running, it might indicate you need to need to start it manually.
-
-## More Info
-
-To learn more about the Fhenix Hardhat plugin, check out the [Fhenix Hardhat Plugin Repository](https://github.com/FhenixProtocol/fhenix-hardhat-plugin).
